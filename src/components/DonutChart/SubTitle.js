@@ -1,13 +1,13 @@
 import React from 'react';
 
-const SubTitle = ({ radius, fill, textAnchor, subTitle1, subTitle2, currency }) => {
+const SubTitle = ({ radius, fill, textAnchor, totalSum, currency }) => {
   return (
     <text x={radius} y={radius} fill={fill} textAnchor={textAnchor}>
-      <tspan>{subTitle1}</tspan>
-      <tspan x={radius} y={radius + 20}>
-        {currency}
-        {subTitle2}
+      <tspan x={radius} y={radius + 10} fontSize={26}>
+        {currency}&nbsp;
+        {totalSum.toLocaleString()}
       </tspan>
+      <tspan fill='#afadfe'>.00</tspan>
     </text>
   );
 };

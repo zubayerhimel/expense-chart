@@ -24,20 +24,22 @@ const DonutChart = ({ radius, data, colors, hole, strokeWidth, ...props }) => {
         startAngle += angle;
 
         return (
-          <Slice
-            key={itemIndex}
-            value={item}
-            percent={percent}
-            percentValue={percent.toFixed(1)}
-            startAngle={nextAngle}
-            angle={angle}
-            radius={radius}
-            hole={radius - hole}
-            trueHole={hole}
-            fill={colors[itemIndex % colorsLength]}
-            Width={strokeWidth}
-            {...props}
-          />
+          <>
+            <Slice
+              key={itemIndex}
+              value={item}
+              percent={percent}
+              percentValue={percent.toFixed(1)}
+              startAngle={nextAngle}
+              angle={angle}
+              radius={radius}
+              hole={radius - hole}
+              trueHole={hole}
+              fill={colors[itemIndex % colorsLength]}
+              Width={strokeWidth}
+              {...props}
+            />
+          </>
         );
       })}
     </svg>

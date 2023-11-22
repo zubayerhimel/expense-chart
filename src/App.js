@@ -1,27 +1,22 @@
 import { useEffect, useState } from 'react';
-import { createSearchParams, useLocation, useNavigate } from 'react-router-dom';
 
 import DonutChart from './components/DonutChart';
+import LegendIndicator from './components/LegendIndicator';
 import { jsonData } from './data/chart-data';
 
 import './App.scss';
 
 function App() {
-  const subTitle1 = 'Money Spent',
-    subTitle2 = '0df',
-    currency = '$',
+  const currency = '$',
     showLabel = false,
     colors = ['#4C49ED', '#9D9BF4', '#4FD18B', '#141197'],
     radius = 100,
     hole = 75,
     stroke = 1,
-    strokeWidth = 6;
+    strokeWidth = 6,
+    legendData = Object.keys(jsonData[0]).filter((key) => key !== 'period');
 
-  const location = useLocation();
-  const navigate = useNavigate();
-  const queryParams = new URLSearchParams(location.search);
-
-  const [chartData, setChartData] = useState([]);
+  const [chartData, setChartData] = useState({ dataArr: [], sum: 0 });
   const [activePeriod, setActivePeriod] = useState('1M');
 
   useEffect(() => {
@@ -32,11 +27,14 @@ function App() {
     setActivePeriod(value);
     const activeObj = jsonData.find((data) => data.period === value);
 
+    // get the values of the legend in array format except period key
     const data = Object.keys(activeObj)
       .filter((key) => key !== 'period')
       .map((key) => activeObj[key]);
 
-    setChartData(data);
+    const dataSum = data?.reduce((prev, curr) => prev + curr, 0);
+
+    setChartData({ dataArr: data, sum: dataSum });
   };
 
   return (
@@ -55,10 +53,9 @@ function App() {
         </div>
 
         <DonutChart
-          key={chartData} // trigger re-render for every period change
-          data={chartData}
-          subTitle1={subTitle1}
-          subTitle2={subTitle2}
+          key={chartData.sum} // trigger re-render for every period change
+          data={chartData.dataArr}
+          totalSum={chartData.sum}
           radius={radius}
           hole={hole}
           colors={colors}
@@ -67,6 +64,11 @@ function App() {
           showLabel={showLabel}
           currency={currency}
         />
+        <div className='legend-wrapper'>
+          {legendData?.map((legend, index) => (
+            <LegendIndicator key={index} text={legend} color={colors[index]} />
+          ))}
+        </div>
       </div>
     </div>
   );

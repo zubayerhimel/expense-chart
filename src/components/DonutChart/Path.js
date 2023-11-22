@@ -108,7 +108,7 @@ class Path extends React.Component {
             {this.props.percent ? this.props.percentValue + '%' : this.props.value}
           </text>
         ) : null}
-        {this.props.subTitle1 ? <SubTitle {...this.props} textAnchor='middle' fill='#aaa' /> : null}
+        {this.props.totalSum ? <SubTitle {...this.props} textAnchor='middle' fill='#000' /> : null}
       </g>
     );
   }
