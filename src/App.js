@@ -21,7 +21,7 @@ function App() {
 
   useEffect(() => {
     onPeriodClick(activePeriod);
-  }, []);
+  }, [activePeriod]);
 
   const onPeriodClick = (value) => {
     setActivePeriod(value);
