@@ -1,4 +1,4 @@
-export const chartData = [
+export const jsonData = [
   {
     period: '1M',
     personal: 150,

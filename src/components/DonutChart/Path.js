@@ -37,7 +37,6 @@ class Path extends React.Component {
 
   componentDidUpdate(prevProps, _prevState) {
     if (prevProps.radius !== this.props.radius || prevProps.hole !== this.props.hole) {
-      console.log('slicehit');
       this.setState({ path: '' });
       this.animate();
     }
@@ -57,8 +56,6 @@ class Path extends React.Component {
     if (!this.state.isMounted) {
       return;
     }
-
-    console.log('slicedraw');
 
     let p = this.props,
       path = [],

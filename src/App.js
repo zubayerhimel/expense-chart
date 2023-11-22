@@ -1,17 +1,53 @@
-import './App.scss';
+import { useEffect, useState } from 'react';
+import { createSearchParams, useLocation, useNavigate } from 'react-router-dom';
+
 import DonutChart from './components/DonutChart';
+import { jsonData } from './data/chart-data';
+
+import './App.scss';
 
 function App() {
-  const data = [5, 12, 8, 73, 100],
-    subTitle1 = 'Money Spent',
+  const subTitle1 = 'Money Spent',
     subTitle2 = '0df',
     currency = '$',
     showLabel = false,
-    colors = ['#43A19E', '#7B43A1', '#F2317A', '#FF9824', '#58CF6C'],
+    colors = ['#4C49ED', '#9D9BF4', '#4FD18B', '#141197'],
     radius = 100,
     hole = 75,
     stroke = 1,
     strokeWidth = 6;
+
+  const location = useLocation();
+  const navigate = useNavigate();
+  const queryParams = new URLSearchParams(location.search);
+
+  const [chartData, setChartData] = useState([]);
+
+  useEffect(() => {
+    const activePeriod = queryParams.get('period');
+
+    if (activePeriod === 'null') {
+      onPeriodClick('1M');
+    } else {
+      onPeriodClick(activePeriod);
+    }
+  }, []);
+
+  const onPeriodClick = (value) => {
+    const options = {
+      pathname: '/',
+      search: `?${createSearchParams({ period: value })}`,
+    };
+    navigate(options, { replace: true });
+
+    const activeObj = jsonData.find((data) => data.period === value);
+
+    const data = Object.keys(activeObj)
+      .filter((key) => key !== 'period')
+      .map((key) => activeObj[key]);
+
+    setChartData(data);
+  };
 
   return (
     <div className='container'>
@@ -20,15 +56,17 @@ function App() {
         <span className='card-title'>Expenses</span>
         <div className='time-tab'>
           <ul>
-            <li>1M</li>
-            <li>6M</li>
-            <li>1Y</li>
-            <li>ALL TIME</li>
+            {jsonData?.map(({ period }) => (
+              <li key={period} onClick={() => onPeriodClick(period)} className={queryParams.get('period') === period ? 'active' : ''}>
+                {period}
+              </li>
+            ))}
           </ul>
         </div>
 
         <DonutChart
-          data={data}
+          key={chartData}
+          data={chartData}
           subTitle1={subTitle1}
           subTitle2={subTitle2}
           radius={radius}

@@ -54,14 +54,17 @@
 
     li {
       margin-right: 12px;
-      background-color: #fff;
+      // background-color: #fff;
       padding: 8px 16px;
       border-radius: 30px;
       white-space: nowrap;
       font-size: 12px;
+      cursor: pointer;
     }
   }
 }
 
 .active {
+  background-color: #fff;
+  color: #003eff;
 }
