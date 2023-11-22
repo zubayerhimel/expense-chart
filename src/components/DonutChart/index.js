@@ -7,9 +7,7 @@ const DonutChart = ({ radius, data, colors, hole, strokeWidth, ...props }) => {
     sum,
     startAngle;
 
-  sum = data.reduce(function (carry, current) {
-    return carry + current;
-  }, 0);
+  sum = data.reduce((carry, current) => carry + current, 0);
 
   startAngle = 0;
 

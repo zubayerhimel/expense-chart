@@ -41,18 +41,20 @@
   display: block;
   margin: 25px 0;
   position: relative;
+  max-width: calc(100% - 10px);
 
   ul {
     overflow-x: auto;
+    white-space: nowrap;
     display: flex;
     justify-content: center;
     align-items: center;
     list-style: none;
-    text-align: center;
     padding: 0;
     margin: 0;
     color: #373b47;
     font-weight: 400;
+    scroll-behavior: auto;
 
     li {
       margin-right: 12px;
