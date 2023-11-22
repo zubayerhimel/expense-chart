@@ -20,6 +20,7 @@ function App() {
   const [activePeriod, setActivePeriod] = useState('1M');
 
   useEffect(() => {
+    // trigger the function with initial value
     onPeriodClick(activePeriod);
   }, [activePeriod]);
 
@@ -27,7 +28,7 @@ function App() {
     setActivePeriod(value);
     const activeObj = jsonData.find((data) => data.period === value);
 
-    // get the values of the legend in array format except period key
+    // get the values of the keys in array format except period key
     const data = Object.keys(activeObj)
       .filter((key) => key !== 'period')
       .map((key) => activeObj[key]);
