@@ -22,24 +22,14 @@ function App() {
   const queryParams = new URLSearchParams(location.search);
 
   const [chartData, setChartData] = useState([]);
+  const [activePeriod, setActivePeriod] = useState('1M');
 
   useEffect(() => {
-    const activePeriod = queryParams.get('period');
-
-    if (activePeriod === 'null') {
-      onPeriodClick('1M');
-    } else {
-      onPeriodClick(activePeriod);
-    }
+    onPeriodClick(activePeriod);
   }, []);
 
   const onPeriodClick = (value) => {
-    const options = {
-      pathname: '/',
-      search: `?${createSearchParams({ period: value })}`,
-    };
-    navigate(options, { replace: true });
-
+    setActivePeriod(value);
     const activeObj = jsonData.find((data) => data.period === value);
 
     const data = Object.keys(activeObj)
@@ -57,7 +47,7 @@ function App() {
         <div className='time-tab'>
           <ul>
             {jsonData?.map(({ period }) => (
-              <li key={period} onClick={() => onPeriodClick(period)} className={queryParams.get('period') === period ? 'active' : ''}>
+              <li key={period} onClick={() => onPeriodClick(period)} className={activePeriod === period ? 'active' : ''}>
                 {period}
               </li>
             ))}
@@ -65,7 +55,7 @@ function App() {
         </div>
 
         <DonutChart
-          key={chartData}
+          key={chartData} // trigger re-render for every period change
           data={chartData}
           subTitle1={subTitle1}
           subTitle2={subTitle2}
